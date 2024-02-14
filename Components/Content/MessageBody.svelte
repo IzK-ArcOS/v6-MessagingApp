@@ -5,7 +5,7 @@
 
   export let runtime: Runtime;
 
-  const { Message } = runtime;
+  const { Message, ViewingMessageSource } = runtime;
 
   let body = "";
 
@@ -19,5 +19,9 @@
 </script>
 
 <div class="message-body">
-  <MarkdownRenderer content={body} />
+  {#if !$ViewingMessageSource}
+    <MarkdownRenderer content={body} />
+  {:else}
+    <textarea readonly value={body} class="source" />
+  {/if}
 </div>

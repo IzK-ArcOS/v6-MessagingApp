@@ -20,10 +20,14 @@
   function archive() {
     runtime.archiveMessage();
   }
+
+  function saveMessage() {
+    runtime.SaveMessage();
+  }
 </script>
 
 <div class="group">
-  <button class="material-icons-round" disabled={!$Message}>save</button>
+  <button class="material-icons-round" disabled={!$Message} on:click={saveMessage}>save</button>
   <button class="material-icons-round" disabled={!$Message}>delete</button>
   <button class="material-icons-round" disabled={!$Message} title={archived ? "Unarchive message" : "Archive message"} on:click={archive}>
     {archived ? "unarchive" : "archive"}

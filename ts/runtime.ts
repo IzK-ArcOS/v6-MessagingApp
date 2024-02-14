@@ -8,6 +8,12 @@ import { Message, PartialMessage } from "$types/messaging";
 import Fuse from "fuse.js";
 import { MessagingPages } from "./store";
 import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
+import { GetSaveFilePath } from "$ts/stores/apps/file";
+import { SaveIcon } from "$ts/images/general";
+import { writeFile } from "$ts/server/fs/file";
+import { textToBlob } from "$ts/server/fs/convert";
+import { FileProgress } from "$ts/server/fs/progress";
+import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -17,6 +23,7 @@ export class Runtime extends AppRuntime {
   public SearchFilter = Store<string>("");
   public SearchResults = Store<string[]>([]);
   public LockRefresh = Store<boolean>(false);
+  public ViewingMessageSource = Store<boolean>(false);
 
   constructor(app: App, mutator: AppMutator, process: Process) {
     super(app, mutator, process);
@@ -124,5 +131,41 @@ export class Runtime extends AppRuntime {
 
       unsub();
     });
+  }
+
+  public async SaveMessage() {
+    const message = this.Message.get();
+
+    if (!message) return false;
+
+    const filename = `${message.id} from ${message.sender}.md`;
+
+    const path = await GetSaveFilePath(this.pid, {
+      title: "Where do you want to save the message?",
+      icon: SaveIcon,
+      saveName: filename,
+      isSave: true,
+    });
+
+    const { setDone, mutErr } = await FileProgress(
+      {
+        max: 1,
+        done: 0,
+        caption: `Saving message to ${pathToFriendlyName(path)}...`,
+        type: "quantity",
+        icon: SaveIcon,
+        subtitle: `To ${pathToFriendlyPath(path)}`,
+        waiting: false,
+        working: false,
+        errors: 0,
+      },
+      this.pid,
+      false
+    );
+
+    const written = await writeFile(path, textToBlob(message.body), true);
+
+    if (!written) mutErr(+1);
+    else setDone(1);
   }
 }
