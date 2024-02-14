@@ -1,0 +1,29 @@
+@import url("./titlebar/search.css");
+@import url("./titlebar/left.css");
+@import url("./titlebar/button.css");
+@import url("./titlebar/additional.css");
+
+#MessagingApp > div.body div.titlebar {
+  height: 50px !important;
+  padding: 10px;
+  border-bottom: var(--win-border);
+  gap: 5px;
+  display: flex;
+}
+
+#MessagingApp > div.body div.titlebar div.controls {
+  margin-right: 5px;
+}
+
+#MessagingApp > div.body div.titlebar div.title {
+  flex-grow: 1;
+  max-width: unset;
+}
+
+#MessagingApp > div.body div.titlebar div.toolbar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+}

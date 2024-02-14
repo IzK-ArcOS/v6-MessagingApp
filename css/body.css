@@ -1,0 +1,5 @@
+#MessagingApp > div.body div.message-body {
+  padding: 15px;
+  overflow-y: auto;
+  word-wrap: break-word;
+}

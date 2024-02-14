@@ -1,0 +1,6 @@
+#MessagingApp > div.body div.content {
+  flex-grow: 1;
+  max-width: calc(100% - 200px);
+  background-color: var(--win-bg);
+  border-left: var(--win-border);
+}

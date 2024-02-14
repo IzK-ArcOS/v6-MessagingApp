@@ -1,7 +1,21 @@
 @import url("./sidebar.css");
+@import url("./content.css");
+@import url("./titlebar.css");
+@import url("./list.css");
+@import url("./body.css");
 
 #MessagingApp > div.body {
   display: flex;
-
   padding: 0;
+  height: 100%;
+}
+
+#MessagingApp > div.body div.content {
+  display: flex;
+  flex-direction: column;
+}
+
+#MessagingApp > div.body div.content div.bottom {
+  display: flex;
+  height: 100%;
 }

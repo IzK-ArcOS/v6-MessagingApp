@@ -9,11 +9,12 @@
   export let runtime: Runtime;
   export let message: PartialMessage;
 
+  const { Message, SearchResults, SearchFilter } = runtime;
+
   let pfp = "";
   let username = "";
 
   onMount(async () => {
-    console.log($UserName, message.sender, message.receiver);
     username = message.receiver == $UserName ? message.sender : message.receiver;
 
     pfp = await getUserPfp(username);
@@ -24,13 +25,15 @@
   }
 </script>
 
-<button class="message-link" on:click={read}>
-  <img src={pfp} alt="" />
-  <div class="context">
-    <span class="receiver">{username}</span>
-    <span class="partial">{filterPartialMessageBody(message.partialBody)}</span>
-  </div>
-</button>
+{#if $SearchFilter ? $SearchResults.includes(message.id) : true}
+  <button class="message-link" on:click={read} class:selected={$Message && $Message.id == message.id}>
+    <img src={pfp} alt="" />
+    <div class="context">
+      <span class="receiver">{username}</span>
+      <span class="partial">{filterPartialMessageBody(message.partialBody)}</span>
+    </div>
+  </button>
+{/if}
 
 <style scoped>
   img {

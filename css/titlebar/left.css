@@ -1,0 +1,5 @@
+#MessagingApp > div.body div.titlebar div.toolbar div.left {
+  width: 229px;
+  display: flex;
+  gap: 5px;
+}

@@ -1,0 +1,16 @@
+#MessagingApp > div.body div.titlebar div.toolbar button {
+  margin: 0;
+}
+
+#MessagingApp > div.body div.titlebar div.toolbar button.material-icons-round {
+  margin: 0;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+}
+
+#MessagingApp > div.body div.titlebar button.compose-button {
+  margin-left: auto !important;
+  height: 30px;
+}

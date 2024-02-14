@@ -1,0 +1,11 @@
+#MessagingApp > div.body div.titlebar div.toolbar div.group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#MessagingApp > div.body div.titlebar div.sep {
+  width: 1px;
+  height: 20px;
+  background-color: var(--button-hover-bg);
+}

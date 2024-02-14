@@ -1,0 +1,24 @@
+#MessagingApp > div.body div.titlebar div.toolbar div.left div.search-box {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  padding: 7px;
+  gap: 10px;
+  max-width: calc(100% - 35px);
+  height: 30px;
+  border-radius: 6px;
+  background-color: var(--button-glass-bg);
+}
+
+#MessagingApp > div.body div.titlebar div.toolbar div.left div.search-box span {
+  font-size: 16px;
+}
+
+#MessagingApp > div.body div.titlebar div.toolbar div.left div.search-box input {
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: var(--fg);
+  background-color: transparent;
+  box-shadow: none;
+}
