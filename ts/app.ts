@@ -9,7 +9,7 @@ export const MessagingApp: App = {
     description: "This is an app template",
     author: "The ArcOS Team",
     version: "2.0.0",
-    icon: DefaultIcon
+    icon: DefaultIcon,
   },
   runtime: Runtime,
   content: AppSvelte,
@@ -23,12 +23,13 @@ export const MessagingApp: App = {
     maximized: false,
     headless: true,
     fullscreen: false,
-    resizable: true
+    resizable: true,
   },
   controls: {
     minimize: true,
     maximize: true,
-    close: true
+    close: true,
   },
-  glass: true
-}
+  glass: true,
+  singleInstance: true,
+};
