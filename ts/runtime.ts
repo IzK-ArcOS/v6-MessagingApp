@@ -25,7 +25,7 @@ export class Runtime extends AppRuntime {
     this.assignDispatchers();
   }
 
-  async Update() {
+  async Update(reset = true) {
     const page = MessagingPages[this.Page.get()];
 
     if (this.LockRefresh.get() || !page) return;
@@ -33,12 +33,15 @@ export class Runtime extends AppRuntime {
     this.Store.set([]);
     this.Loading.set(true);
 
-    const supplier = await page.supplier();
+    const supplier = ((await page.supplier()) || []).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
     const currentMessage = this.Message.get();
 
-    this.Store.set(supplier || []);
+    if (reset) this.Message.set(null);
+
+    this.Store.set(supplier);
 
     if (currentMessage) await this.openMessage(currentMessage.id, true);
+    else if (supplier[0]) await this.openMessage(supplier[0].id);
 
     this.Loading.set(false);
   }
@@ -52,9 +55,7 @@ export class Runtime extends AppRuntime {
 
     this.Page.set(id);
 
-    if (reset) this.Message.set(null);
-
-    await this.Update();
+    await this.Update(reset);
 
     return true;
   }

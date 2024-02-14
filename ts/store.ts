@@ -20,7 +20,7 @@ export const MessagingPages: MessagingPageStore = {
   },
   archive: {
     name: "Archived",
-    icon: "inventory",
+    icon: "inventory_2",
     supplier: getArchivedMessages,
   },
 };

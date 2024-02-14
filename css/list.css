@@ -3,6 +3,7 @@
   border-right: var(--win-border);
   min-width: 250px;
   padding: 10px;
+  background-color: var(--win-bg);
 }
 
 #MessagingApp > div.body div.message-list button {
@@ -37,8 +38,23 @@
   flex-direction: column;
 }
 
+#MessagingApp > div.body div.message-list button div.unread-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  display: none;
+}
+
+#MessagingApp > div.body div.message-list button.unread:not(.selected) div.unread-dot {
+  display: block;
+}
+
 #MessagingApp > div.body div.message-list button div.context span.receiver {
   font-weight: bold;
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 
 #MessagingApp > div.body div.message-list button div.context span.partial {

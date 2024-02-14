@@ -4,20 +4,24 @@
   import { getUserPfp } from "$ts/server/user/pfp";
   import { UserName } from "$ts/stores/user";
   import { PartialMessage } from "$types/messaging";
+  import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
 
   export let runtime: Runtime;
   export let message: PartialMessage;
+  export let users: AllUsers;
 
   const { Message, SearchResults, SearchFilter } = runtime;
 
   let pfp = "";
   let username = "";
+  let isUnread = false;
 
   onMount(async () => {
     username = message.receiver == $UserName ? message.sender : message.receiver;
+    isUnread = message.receiver == $UserName && !message.read;
 
-    pfp = await getUserPfp(username);
+    pfp = await getUserPfp(username, "", users);
   });
 
   function read() {
@@ -26,10 +30,13 @@
 </script>
 
 {#if $SearchFilter ? $SearchResults.includes(message.id) : true}
-  <button class="message-link" on:click={read} class:selected={$Message && $Message.id == message.id}>
+  <button class="message-link" on:click={read} class:selected={$Message && $Message.id == message.id} class:unread={isUnread}>
     <img src={pfp} alt="" />
     <div class="context">
-      <span class="receiver">{username}</span>
+      <span class="receiver"
+        >{username}
+        <div class="unread-dot" />
+      </span>
       <span class="partial">{filterPartialMessageBody(message.partialBody)}</span>
     </div>
   </button>
