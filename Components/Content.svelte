@@ -3,6 +3,7 @@
   import { Runtime } from "../ts/runtime";
   import MessageBody from "./Content/MessageBody.svelte";
   import MessageList from "./Content/MessageList.svelte";
+  import Statusbar from "./Content/Statusbar.svelte";
   import Toolbar from "./Content/Toolbar.svelte";
 
   export let runtime: Runtime;
@@ -16,4 +17,5 @@
     <MessageList {runtime} />
     <MessageBody {runtime} />
   </div>
+  <Statusbar {runtime} />
 </div>

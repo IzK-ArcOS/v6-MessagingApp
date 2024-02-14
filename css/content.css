@@ -4,3 +4,7 @@
   background-color: var(--win-bg);
   border-left: var(--win-border);
 }
+
+#MessagingApp > div.body div.content div.bottom {
+  height: calc(100% - 50px);
+}

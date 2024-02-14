@@ -6,10 +6,11 @@ import { App } from "$types/app";
 export const MessagingApp: App = {
   metadata: {
     name: "Messages",
-    description: "This is an app template",
+    description: "Send messages to other ArcOS users",
     author: "The ArcOS Team",
     version: "2.0.0",
     icon: DefaultIcon,
+    appGroup: "communication",
   },
   runtime: Runtime,
   content: AppSvelte,

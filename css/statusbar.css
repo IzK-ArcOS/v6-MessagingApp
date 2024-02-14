@@ -1,0 +1,20 @@
+#MessagingApp > div.body div.statusbar {
+  display: flex;
+  height: 25px;
+  border-top: var(--win-border);
+  align-items: center;
+}
+
+#MessagingApp > div.body div.statusbar div.segment {
+  padding: 0 10px;
+  height: 25px;
+  line-height: 25px;
+}
+
+#MessagingApp > div.body div.statusbar div.segment + div.segment {
+  border-left: var(--win-border);
+}
+
+#MessagingApp > div.body div.statusbar div.segment.right {
+  margin-left: auto;
+}

@@ -4,6 +4,8 @@
   min-width: 250px;
   padding: 10px;
   background-color: var(--win-bg);
+  max-height: 100%;
+  overflow-y: scroll;
 }
 
 #MessagingApp > div.body div.message-list button {
