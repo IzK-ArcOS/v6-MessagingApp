@@ -1,0 +1,40 @@
+#MessagingApp > div.body div.sidebar {
+  height: 100%;
+  width: 200px;
+  min-width: 200px;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+#MessagingApp > div.body div.sidebar button {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-align: left;
+  width: 100%;
+  background-color: transparent;
+  padding: 5px 7px;
+  position: relative;
+  white-space: nowrap;
+  margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  height: 35px;
+  border-radius: 7.5px;
+  margin-bottom: 5px;
+}
+
+#MessagingApp > div.body div.sidebar button span.material-icons-round {
+  height: 24px;
+  color: var(--accent);
+  min-width: 24px;
+}
+
+#MessagingApp > div.body div.sidebar button.active,
+#MessagingApp > div.body div.sidebar button:hover {
+  background-color: var(--accent-transparent);
+}
+
+#MessagingApp > div.body div.sidebar button.active {
+  font-weight: bold;
+}

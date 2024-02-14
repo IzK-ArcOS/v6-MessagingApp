@@ -14,7 +14,7 @@ export const MessagingApp: App = {
   runtime: Runtime,
   content: AppSvelte,
   id: "MessagingApp",
-  size: { w: 600, h: 450 },
+  size: { w: 1000, h: 700 },
   minSize: { w: 500, h: 300 },
   maxSize: { w: 1800, h: 1000 },
   pos: { x: 100, y: 100 },

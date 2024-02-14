@@ -1,3 +1,7 @@
-window#appTemplate { /* Rename appTemplate to the ID of the app */
-  color: #f0f;
+@import url("./sidebar.css");
+
+#MessagingApp > div.body {
+  display: flex;
+
+  padding: 0;
 }

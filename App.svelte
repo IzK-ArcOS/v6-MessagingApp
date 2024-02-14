@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Content from "./Components/Content.svelte";
   import Sidebar from "./Components/Sidebar.svelte";
   import "./css/main.css";
   import { Runtime } from "./ts/runtime";
@@ -7,3 +8,4 @@
 </script>
 
 <Sidebar {runtime} />
+<Content {runtime} />
