@@ -74,6 +74,10 @@ export class ComposeRuntime extends AppRuntime {
   }
 
   public discard() {
+    const body = this.Body.get();
+
+    if (!body) return this.closeApp();
+
     createErrorDialog(
       {
         title: "Discard message?",
