@@ -214,7 +214,23 @@ export class Runtime extends AppRuntime {
           {
             caption: "Delete",
             action: async () => {
-              await deleteMessage(message.id);
+              const deleted = await deleteMessage(message.id);
+
+              if (!deleted) {
+                createErrorDialog(
+                  {
+                    title: "Delete failed!",
+                    message: `An error occured while deleting this message. Please make sure it exists, and then try again.`,
+                    image: ErrorIcon,
+                    buttons: [{ caption: "Okay", action() {}, suggested: true }],
+                    sound: "arcos.dialog.error",
+                  },
+                  this.pid,
+                  true
+                );
+
+                return;
+              }
 
               this.Message.set(null);
               this.Update();
