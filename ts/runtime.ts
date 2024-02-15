@@ -46,6 +46,8 @@ export class Runtime extends AppRuntime {
 
     if (this.LockRefresh.get() || !page) return;
 
+    this.setWindowTitle(page.name, true);
+
     this.Store.set([]);
     this.Loading.set(true);
 
@@ -68,8 +70,9 @@ export class Runtime extends AppRuntime {
     if (this.Loading.get()) return false;
 
     const current = this.Page.get();
+    const page = MessagingPages[id];
 
-    if (!MessagingPages[id] || current == id) return false;
+    if (!page || current == id) return false;
 
     this.Page.set(id);
 

@@ -1,13 +1,13 @@
-import { ComponentIcon } from "$ts/images/general";
+import { MessagingIcon } from "$ts/images/apps";
 import { App } from "$types/app";
-import { ComposeRuntime } from "./runtime";
 import ComposeSvelte from "./Compose.svelte";
+import { ComposeRuntime } from "./runtime";
 
 export const ComposeApp: App = {
   metadata: {
     name: "Compose Message",
     description: "Compose a new message",
-    icon: ComponentIcon,
+    icon: MessagingIcon,
     author: "The ArcOS Team",
     version: "1.0.0",
   },

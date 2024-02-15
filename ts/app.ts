@@ -1,4 +1,4 @@
-import { DefaultIcon } from "$ts/images/apps";
+import { DefaultIcon, MessagingIcon } from "$ts/images/apps";
 import { Runtime } from "./runtime";
 import AppSvelte from "../App.svelte";
 import { App } from "$types/app";
@@ -9,7 +9,7 @@ export const MessagingApp: App = {
     description: "Send messages to other ArcOS users",
     author: "The ArcOS Team",
     version: "2.0.0",
-    icon: DefaultIcon,
+    icon: MessagingIcon,
     appGroup: "communication",
   },
   runtime: Runtime,
