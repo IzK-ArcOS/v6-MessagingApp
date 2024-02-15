@@ -29,13 +29,19 @@
 </script>
 
 <div class="group">
-  <button class="material-icons-round" disabled={!$Message || $Composing} on:click={saveMessage}>
+  <button
+    class="material-icons-round"
+    disabled={!$Message || $Composing}
+    on:click={saveMessage}
+    title="Save Message..."
+  >
     save
   </button>
   <button
     class="material-icons-round"
     disabled={!$Message || $Message.receiver !== $UserName || $Composing}
     on:click={deleteMessage}
+    title="Delete Message"
   >
     delete
   </button>

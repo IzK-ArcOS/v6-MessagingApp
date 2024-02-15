@@ -11,8 +11,15 @@
 </script>
 
 <div class="group">
-  <button class="material-icons-round" disabled={!$Message || $Composing}>reply</button>
-  <button class="material-icons-round" disabled={!$Message || $Composing} on:click={forward}
-    >share</button
+  <button class="material-icons-round" disabled={!$Message || $Composing} title="Reply to Message">
+    reply
+  </button>
+  <button
+    class="material-icons-round"
+    disabled={!$Message || $Composing}
+    title="Forward Message"
+    on:click={forward}
   >
+    share
+  </button>
 </div>

@@ -22,5 +22,7 @@
     <span class="material-icons-round">search</span>
     <input type="text" bind:value={$value} placeholder="Search" disabled={$Composing} />
   </div>
-  <button class="material-icons-round" on:click={refresh} disabled={$Composing}>refresh</button>
+  <button class="material-icons-round" on:click={refresh} disabled={$Composing} title="Refresh">
+    refresh
+  </button>
 </div>
