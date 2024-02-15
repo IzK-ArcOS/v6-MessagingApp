@@ -1,27 +1,27 @@
+import { spawnOverlay } from "$ts/apps";
 import { AppRuntime } from "$ts/apps/runtime";
+import { ErrorIcon } from "$ts/images/dialog";
+import { SaveIcon, TrashIcon } from "$ts/images/general";
 import { Process } from "$ts/process";
 import { GlobalDispatch } from "$ts/process/dispatch/global";
+import { createErrorDialog } from "$ts/process/error";
+import { textToBlob } from "$ts/server/fs/convert";
+import { writeFile } from "$ts/server/fs/file";
+import { FileProgress } from "$ts/server/fs/progress";
+import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
+import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
+import { deleteMessage } from "$ts/server/messaging/delete";
 import { getMessage } from "$ts/server/messaging/get";
+import { GetSaveFilePath } from "$ts/stores/apps/file";
+import { ProcessStack } from "$ts/stores/process";
+import { UserName } from "$ts/stores/user";
 import { Store } from "$ts/writable";
 import type { App, AppMutator } from "$types/app";
 import { Message, PartialMessage } from "$types/messaging";
-import Fuse from "fuse.js";
-import { MessagingPages } from "./store";
-import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
-import { GetSaveFilePath } from "$ts/stores/apps/file";
-import { SaveIcon, TrashIcon } from "$ts/images/general";
-import { writeFile } from "$ts/server/fs/file";
-import { textToBlob } from "$ts/server/fs/convert";
-import { FileProgress } from "$ts/server/fs/progress";
-import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
-import { UserName } from "$ts/stores/user";
-import { createErrorDialog } from "$ts/process/error";
-import { ErrorIcon } from "$ts/images/dialog";
-import { deleteMessage } from "$ts/server/messaging/delete";
-import { spawnOverlay } from "$ts/apps";
-import { ComposeApp } from "../Compose/app";
 import dayjs from "dayjs";
-import { ProcessStack } from "$ts/stores/process";
+import Fuse from "fuse.js";
+import { ComposeApp } from "../Compose/app";
+import { MessagingPages } from "./store";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -258,11 +258,10 @@ export class Runtime extends AppRuntime {
       title = bodyParts[0].replace("### ", "");
     }
 
-    const username = UserName.get();
     const sender = message.sender;
     const receiver = message.receiver;
     const ts = dayjs(message.timestamp).format("[on] D MMMM YYYY [at] H:mm:ss");
-    const body = `${message.body}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of ${username}). `;
+    const body = `${message.body}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of server). `;
 
     this.Compose(title ? body.replace(`${bodyParts[0]}\n`, "") : body, title ? `Fw: ${title}` : "");
   }
