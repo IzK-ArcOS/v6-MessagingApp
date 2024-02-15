@@ -8,10 +8,19 @@
   function forward() {
     runtime.ForwardMessage();
   }
+
+  function reply() {
+    runtime.ReplyToMessage();
+  }
 </script>
 
 <div class="group">
-  <button class="material-icons-round" disabled={!$Message || $Composing} title="Reply to Message">
+  <button
+    class="material-icons-round"
+    disabled={!$Message || $Composing}
+    title="Reply to Message"
+    on:click={reply}
+  >
     reply
   </button>
   <button

@@ -30,11 +30,17 @@
 </script>
 
 {#if $SearchFilter ? $SearchResults.includes(message.id) : true}
-  <button class="message-link" on:click={read} class:selected={$Message && $Message.id == message.id} class:unread={isUnread}>
+  <button
+    class="message-link"
+    on:click={read}
+    class:selected={$Message && $Message.id == message.id}
+    class:unread={isUnread}
+    class:reply={!!message.replyingTo}
+  >
     <img src={pfp} alt="" />
     <div class="context">
-      <span class="receiver"
-        >{username}
+      <span class="receiver">
+        <span>{username}</span>
         <div class="unread-dot" />
       </span>
       <span class="partial">{filterPartialMessageBody(message.partialBody)}</span>

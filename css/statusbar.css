@@ -18,3 +18,19 @@
 #MessagingApp > div.body div.statusbar div.segment.right {
   margin-left: auto;
 }
+#MessagingApp > div.body div.statusbar span.material-icons-round {
+  font-size: 16px;
+  line-height: 25px;
+}
+
+#MessagingApp > div.body div.statusbar span.material-icons-round + span.material-icons-round {
+  margin-left: 5px;
+}
+
+#MessagingApp > div.body div.statusbar span.material-icons-round:not(.disabled) {
+  color: var(--accent);
+}
+
+#MessagingApp > div.body div.statusbar span.material-icons-round.disabled {
+  opacity: 0.5;
+}

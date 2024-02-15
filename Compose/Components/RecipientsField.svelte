@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { sleep } from "$ts/util";
+  import { Plural, sleep } from "$ts/util";
   import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
   import { ComposeRuntime } from "../ts/runtime";
@@ -35,10 +35,10 @@
 
 {#if users}
   <div class="field recipients">
-    <p class="caption">Recipients</p>
+    <p class="caption">{Plural("Recipient", $Receivers.length)}</p>
     <div class="input">
       {#if $Receivers.length}
-        <div class="current">
+        <div class="current" class:replying={$ReplyId}>
           {#each $Receivers as receiver}
             <Recipient bind:receivers={$Receivers} {receiver} {users} />
           {/each}

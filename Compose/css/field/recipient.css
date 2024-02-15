@@ -10,6 +10,27 @@
   min-width: fit-content;
 }
 
+#MessageComposer > div.body div.field.recipients div.current.replying div.receiver-pill {
+  background-color: transparent;
+  font-weight: bold;
+  padding: 0;
+  gap: 15px;
+}
+
+#MessageComposer
+  > div.body
+  div.field.recipients
+  div.current.replying
+  div.receiver-pill
+  div.pfprenderer {
+  min-width: 26px;
+  min-height: 26px;
+}
+
+#MessageComposer > div.body div.field.recipients div.current.replying div.receiver-pill button {
+  display: none;
+}
+
 #MessageComposer > div.body div.field.recipients div.receiver-pill {
   height: 30px;
   display: flex;

@@ -4,7 +4,7 @@
 
   export let runtime: ComposeRuntime;
 
-  const { Previewing, Body, COMPOSE_LIMIT } = runtime;
+  const { Previewing, Body, COMPOSE_LIMIT, ReplyId } = runtime;
 </script>
 
 <div class="compose-body">
@@ -12,7 +12,7 @@
     <textarea
       class="composer"
       bind:value={$Body}
-      placeholder="New Message..."
+      placeholder={$ReplyId ? "New Reply..." : "New Message..."}
       maxlength={COMPOSE_LIMIT}
     />
   {:else}

@@ -6,12 +6,12 @@
 
   export let runtime: Runtime;
 
-  const { Store, Page, Loading, Message } = runtime;
+  const { Store, Page, Loading, Message, Composing, ViewingMessageSource } = runtime;
 </script>
 
 <div class="statusbar">
   <div class="segment">
-    Logged in as {$UserName}
+    {$UserName}
   </div>
   <div class="segment">Server <ApiReveal /></div>
   <div class="segment">
@@ -21,14 +21,20 @@
       Please wait...
     {/if}
   </div>
-  <div class="segment">
-    {#if $Message}
-      Viewing #{$Message.id} from {$Message.sender}
-    {:else}
-      Not viewing any message.
-    {/if}
-  </div>
+  {#if $Message}
+    <div class="segment">
+      From: {$Message.sender}
+    </div>
+  {/if}
   <div class="segment right">
+    <span class="material-icons-round" class:disabled={$Message ? !$Message.replyingTo : true}>
+      reply
+    </span>
+    <span class="material-icons-round" class:disabled={!$Loading}>sync</span>
+    <span class="material-icons-round" class:disabled={!$Composing}>edit</span>
+    <span class="material-icons-round" class:disabled={!$ViewingMessageSource}>code</span>
+  </div>
+  <div class="segment">
     {$Loading ? "Loading..." : "Ready."}
   </div>
 </div>

@@ -3,15 +3,15 @@ import { getInboxMessages, getSentMessages, getUnreadMessages } from "$ts/server
 import { MessagingPageStore } from "./types";
 
 export const MessagingPages: MessagingPageStore = {
-  inbox: {
-    name: "Inbox",
-    icon: "inbox",
-    supplier: getInboxMessages,
-  },
   unread: {
     name: "Unread",
     icon: "mark_email_unread",
     supplier: getUnreadMessages,
+  },
+  inbox: {
+    name: "Inbox",
+    icon: "inbox",
+    supplier: getInboxMessages,
   },
   sent: {
     name: "Sent",

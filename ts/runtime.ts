@@ -22,11 +22,12 @@ import dayjs from "dayjs";
 import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { MessagingPages } from "./store";
+import { parseTitle } from "$ts/server/messaging/utils";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
   public Message = Store<Message>();
-  public Page = Store<string>("inbox");
+  public Page = Store<string>("unread");
   public Loading = Store<boolean>(false);
   public SearchFilter = Store<string>("");
   public SearchResults = Store<string[]>([]);
@@ -264,24 +265,27 @@ export class Runtime extends AppRuntime {
     });
   }
 
+  public async ReplyToMessage() {
+    const message = this.Message.get();
+
+    if (!message) return;
+
+    const { title } = parseTitle(message.body);
+
+    this.Compose("", title ? `Re: ${title}` : "", message.id);
+  }
+
   public ForwardMessage() {
     const message = this.Message.get();
 
     if (!message) return;
 
-    const bodyParts = message.body.split("\n");
-
-    let title = "";
-
-    if (bodyParts[0].startsWith("### ")) {
-      title = bodyParts[0].replace("### ", "");
-    }
-
+    const { title, body: source } = parseTitle(message.body);
     const sender = message.sender;
     const receiver = message.receiver;
     const ts = dayjs(message.timestamp).format("[on] D MMMM YYYY [at] H:mm:ss");
-    const body = `${message.body}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of server). `;
+    const body = `${source}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of server). `;
 
-    this.Compose(title ? body.replace(`${bodyParts[0]}\n`, "") : body, title ? `Fw: ${title}` : "");
+    this.Compose(body, title ? `Fw: ${title}` : "");
   }
 }

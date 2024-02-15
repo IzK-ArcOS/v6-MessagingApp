@@ -14,7 +14,7 @@ export class ComposeRuntime extends AppRuntime {
   public ReplyId = Store<string>();
   public Title = Store<string>("");
   public Body = Store<string>("");
-  public COMPOSE_LIMIT = 2000;
+  public COMPOSE_LIMIT = 1940;
   public Previewing = Store<boolean>(false);
   public Receivers = Store<string[]>([]);
 
@@ -27,7 +27,7 @@ export class ComposeRuntime extends AppRuntime {
     const body = args[1];
     const title = args[2];
 
-    if (replyId && typeof replyId == "string") this.setReply(replyId);
+    if (replyId) this.setReply(replyId.toString());
     if (body && typeof body == "string") this.Body.set(body);
     if (title && typeof title == "string") this.Title.set(title);
   }
