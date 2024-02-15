@@ -11,7 +11,7 @@ import { FileProgress } from "$ts/server/fs/progress";
 import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
 import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
 import { deleteMessage } from "$ts/server/messaging/delete";
-import { getMessage } from "$ts/server/messaging/get";
+import { getMessage, getSentMessages } from "$ts/server/messaging/get";
 import { GetSaveFilePath } from "$ts/stores/apps/file";
 import { ProcessStack } from "$ts/stores/process";
 import { UserName } from "$ts/stores/user";
@@ -24,6 +24,7 @@ import { ComposeApp } from "../Compose/ts/app";
 import { MessagingPages } from "./store";
 import { parseTitle } from "$ts/server/messaging/utils";
 import { ThreadViewApp } from "../ThreadView/ts/app";
+import { sleep } from "$ts/util";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -313,13 +314,30 @@ export class Runtime extends AppRuntime {
     this.Compose(body, title ? `Fw: ${title}` : "");
   }
 
+  public async openLatestSent() {
+    await this.navigate("sent", true);
+
+    const sent = await getSentMessages();
+    const first = sent[0];
+
+    if (!first) return;
+
+    await this.openMessage(first.id);
+    this.openMessagePage();
+  }
+
   private assignDispatchers() {
     GlobalDispatch.subscribe("message-flush", () => this.Update());
 
     this.process.handler.dispatch.subscribe<string>(this.pid, "open-message", async (data) => {
       await this.openMessage(data);
 
-      await this.openMessagePage();
+      this.openMessagePage();
+    });
+
+    this.process.handler.dispatch.subscribe(this.pid, "open-latest-sent", async () => {
+      await sleep(100);
+      this.openLatestSent();
     });
   }
 }

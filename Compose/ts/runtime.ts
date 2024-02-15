@@ -7,6 +7,7 @@ import { FileProgress } from "$ts/server/fs/progress";
 import { getMessage } from "$ts/server/messaging/get";
 import { replyToMessage, sendMessage } from "$ts/server/messaging/send";
 import { focusedPid } from "$ts/stores/apps";
+import { ProcessStack } from "$ts/stores/process";
 import { Store } from "$ts/writable";
 import { App, AppMutator } from "$types/app";
 
@@ -66,10 +67,14 @@ export class ComposeRuntime extends AppRuntime {
       this.pid
     );
 
-    if (replyId) await replyToMessage(replyId, receivers[0], content);
-    else await sendMessage(receivers, content);
+    let sent = false;
+
+    if (replyId) sent = await replyToMessage(replyId, receivers[0], content);
+    else sent = await sendMessage(receivers, content);
 
     setDone(1);
+
+    if (sent) ProcessStack.dispatch.dispatchToPid(this.process.parentPid, "open-latest-sent");
 
     focusedPid.set(this.process.parentPid);
     this.closeApp();
