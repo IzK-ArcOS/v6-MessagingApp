@@ -1,0 +1,10 @@
+@import url("./field.css");
+@import url("./body.css");
+@import url("./toolbar.css");
+
+#MessageComposer > div.body {
+  padding: 0;
+  background-color: var(--win-bg);
+  height: 100%;
+  overflow: hidden;
+}

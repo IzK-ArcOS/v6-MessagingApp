@@ -27,3 +27,12 @@
   flex-grow: 1;
   width: 100%;
 }
+
+#MessagingApp > div.body div.titlebar div.toolbar.disabled {
+  opacity: 0.2;
+}
+
+#MessagingApp > div.body div.titlebar div.toolbar.disabled button.material-icons-round,
+#MessagingApp > div.body div.titlebar div.toolbar.disabled div.search-field {
+  opacity: 1;
+}

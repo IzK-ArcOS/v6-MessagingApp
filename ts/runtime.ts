@@ -9,11 +9,19 @@ import Fuse from "fuse.js";
 import { MessagingPages } from "./store";
 import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
 import { GetSaveFilePath } from "$ts/stores/apps/file";
-import { SaveIcon } from "$ts/images/general";
+import { SaveIcon, TrashIcon } from "$ts/images/general";
 import { writeFile } from "$ts/server/fs/file";
 import { textToBlob } from "$ts/server/fs/convert";
 import { FileProgress } from "$ts/server/fs/progress";
 import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
+import { UserName } from "$ts/stores/user";
+import { createErrorDialog } from "$ts/process/error";
+import { ErrorIcon } from "$ts/images/dialog";
+import { deleteMessage } from "$ts/server/messaging/delete";
+import { spawnOverlay } from "$ts/apps";
+import { ComposeApp } from "../Compose/app";
+import dayjs from "dayjs";
+import { ProcessStack } from "$ts/stores/process";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -24,6 +32,7 @@ export class Runtime extends AppRuntime {
   public SearchResults = Store<string[]>([]);
   public LockRefresh = Store<boolean>(false);
   public ViewingMessageSource = Store<boolean>(false);
+  public Composing = Store<boolean>(false);
 
   constructor(app: App, mutator: AppMutator, process: Process) {
     super(app, mutator, process);
@@ -40,7 +49,9 @@ export class Runtime extends AppRuntime {
     this.Store.set([]);
     this.Loading.set(true);
 
-    const supplier = ((await page.supplier()) || []).sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    const supplier = ((await page.supplier()) || []).sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
     const currentMessage = this.Message.get();
 
     if (reset) this.Message.set(null);
@@ -107,7 +118,7 @@ export class Runtime extends AppRuntime {
     console.log(this.SearchFilter.get(), this.SearchResults.get());
   }
 
-  public async archiveMessage(id?: string) {
+  public async ArchiveMessage(id?: string) {
     const message = this.Message.get();
 
     this.LockRefresh.set(true);
@@ -167,5 +178,92 @@ export class Runtime extends AppRuntime {
 
     if (!written) mutErr(+1);
     else setDone(1);
+  }
+
+  public async DeleteMessage() {
+    const message = this.Message.get();
+    const currentUser = UserName.get();
+
+    if (!message) return;
+
+    if (message.sender == currentUser && message.receiver !== currentUser) {
+      createErrorDialog(
+        {
+          title: "Can't delete message",
+          message: `You have to be the recipient of a message in order to delete it. Please ask <b>${message.receiver}</b> to delete it for you.`,
+          buttons: [{ caption: "Okay", action() {}, suggested: true }],
+          image: ErrorIcon,
+          sound: "arcos.dialog.error",
+        },
+        this.pid,
+        true
+      );
+
+      return;
+    }
+
+    createErrorDialog(
+      {
+        title: "Delete message?",
+        message: `Are you sure you want to <b>permanently</b> delete message <code>#${message.id}</code> from ${message.sender}? This cannot be undone.`,
+        buttons: [
+          { caption: "Cancel", action() {} },
+          {
+            caption: "Delete",
+            action: async () => {
+              await deleteMessage(message.id);
+
+              this.Message.set(null);
+              this.Update();
+            },
+            suggested: true,
+          },
+        ],
+        image: TrashIcon,
+        sound: "arcos.dialog.info",
+      },
+      this.pid,
+      true
+    );
+  }
+
+  public async Compose(body?: string, title?: string, replyId?: string) {
+    if (this.Composing.get()) return;
+
+    const proc = await spawnOverlay(ComposeApp, this.pid, [replyId, body, title]);
+
+    if (typeof proc === "string") return;
+
+    this.Composing.set(true);
+
+    const subscriber = ProcessStack.processes.subscribe(() => {
+      if (!ProcessStack.isPid(proc.pid, true)) {
+        this.Composing.set(false);
+
+        subscriber();
+      }
+    });
+  }
+
+  public ForwardMessage() {
+    const message = this.Message.get();
+
+    if (!message) return;
+
+    const bodyParts = message.body.split("\n");
+
+    let title = "";
+
+    if (bodyParts[0].startsWith("### ")) {
+      title = bodyParts[0].replace("### ", "");
+    }
+
+    const username = UserName.get();
+    const sender = message.sender;
+    const receiver = message.receiver;
+    const ts = dayjs(message.timestamp).format("[on] D MMMM YYYY [at] H:mm:ss");
+    const body = `${message.body}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of ${username}). `;
+
+    this.Compose(title ? body.replace(`${bodyParts[0]}\n`, "") : body, title ? `Fw: ${title}` : "");
   }
 }

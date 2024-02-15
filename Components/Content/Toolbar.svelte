@@ -7,9 +7,11 @@
   import Store from "./Toolbar/Store.svelte";
 
   export let runtime: Runtime;
+
+  const { Composing } = runtime;
 </script>
 
-<div class="toolbar">
+<div class="toolbar" class:disabled={$Composing}>
   <Left {runtime} />
   <div class="sep" />
   <ReplyShare {runtime} />
