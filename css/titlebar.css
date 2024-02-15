@@ -11,8 +11,14 @@
   display: flex;
 }
 
+#MessagingApp > div.body div.titlebar.left div.controls {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
 #MessagingApp > div.body div.titlebar div.controls {
   margin-right: 5px;
+  height: 18px;
 }
 
 #MessagingApp > div.body div.titlebar div.title {
