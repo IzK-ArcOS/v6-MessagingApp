@@ -3,7 +3,7 @@
 
   export let runtime: Runtime;
 
-  const { Message, Composing } = runtime;
+  const { Message, HasOverlay: Composing } = runtime;
 
   function forward() {
     runtime.ForwardMessage();

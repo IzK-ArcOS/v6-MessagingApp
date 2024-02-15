@@ -3,7 +3,7 @@
 
   export let runtime: Runtime;
 
-  const { Composing } = runtime;
+  const { HasOverlay: Composing } = runtime;
 
   function compose() {
     runtime.Compose();

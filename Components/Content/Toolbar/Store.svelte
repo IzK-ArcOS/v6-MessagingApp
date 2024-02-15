@@ -5,7 +5,7 @@
 
   export let runtime: Runtime;
 
-  const { Message, Composing } = runtime;
+  const { Message, HasOverlay: Composing } = runtime;
 
   let archived = false;
 

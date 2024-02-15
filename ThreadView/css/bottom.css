@@ -1,0 +1,19 @@
+#ThreadView > div.body div.bottom {
+  height: 50px;
+  display: flex;
+  padding: 10px;
+  padding-left: 15px;
+  margin-top: auto;
+  justify-content: space-between;
+  align-items: center;
+  border-top: var(--win-border);
+  background-color: var(--button-bg);
+}
+
+#ThreadView > div.body div.bottom p.of {
+  opacity: 0.5;
+}
+
+#ThreadView > div.body div.bottom button {
+  margin: 0;
+}

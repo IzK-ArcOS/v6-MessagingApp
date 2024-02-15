@@ -16,6 +16,10 @@
     await sleep(5);
     body = v.body;
   });
+
+  function thread() {
+    runtime.ViewThread($Message.id);
+  }
 </script>
 
 <div class="message-body">
@@ -24,4 +28,5 @@
   {:else}
     <textarea readonly value={body} class="source" />
   {/if}
+  <button on:click={thread}>View Thread</button>
 </div>

@@ -23,6 +23,7 @@ import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { MessagingPages } from "./store";
 import { parseTitle } from "$ts/server/messaging/utils";
+import { ThreadViewApp } from "../ThreadView/ts/app";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -33,7 +34,8 @@ export class Runtime extends AppRuntime {
   public SearchResults = Store<string[]>([]);
   public LockRefresh = Store<boolean>(false);
   public ViewingMessageSource = Store<boolean>(false);
-  public Composing = Store<boolean>(false);
+  public ViewingThread = Store<boolean>(false);
+  public HasOverlay = Store<boolean>(false);
 
   constructor(app: App, mutator: AppMutator, process: Process) {
     super(app, mutator, process);
@@ -96,8 +98,14 @@ export class Runtime extends AppRuntime {
     this.Message.set(message);
   }
 
-  private assignDispatchers() {
-    GlobalDispatch.subscribe("message-flush", () => this.Update());
+  public openMessagePage() {
+    const message = this.Message.get();
+    const username = UserName.get();
+
+    if (!message) return;
+
+    if (message.receiver == username) this.navigate(message.read ? "inbox" : "unread");
+    else if (message.sender == username) this.navigate("sent");
   }
 
   public Search(query: string) {
@@ -118,8 +126,6 @@ export class Runtime extends AppRuntime {
 
     this.SearchResults.set(search.map((a) => a.item.id));
     this.SearchFilter.set(query);
-
-    console.log(this.SearchFilter.get(), this.SearchResults.get());
   }
 
   public async ArchiveMessage(id?: string) {
@@ -248,17 +254,35 @@ export class Runtime extends AppRuntime {
   }
 
   public async Compose(body?: string, title?: string, replyId?: string) {
-    if (this.Composing.get()) return;
+    if (this.HasOverlay.get()) return;
 
     const proc = await spawnOverlay(ComposeApp, this.pid, [replyId, body, title]);
 
     if (typeof proc === "string") return;
 
-    this.Composing.set(true);
+    this.HasOverlay.set(true);
 
     const subscriber = ProcessStack.processes.subscribe(() => {
       if (!ProcessStack.isPid(proc.pid, true)) {
-        this.Composing.set(false);
+        this.HasOverlay.set(false);
+
+        subscriber();
+      }
+    });
+  }
+
+  public async ViewThread(id: string) {
+    if (this.HasOverlay.get()) return;
+
+    const proc = await spawnOverlay(ThreadViewApp, this.pid, [id]);
+
+    if (typeof proc === "string") return;
+
+    this.HasOverlay.set(true);
+
+    const subscriber = ProcessStack.processes.subscribe(() => {
+      if (!ProcessStack.isPid(proc.pid, true)) {
+        this.HasOverlay.set(false);
 
         subscriber();
       }
@@ -287,5 +311,15 @@ export class Runtime extends AppRuntime {
     const body = `${source}\n\n---\n\nSent to **${receiver}** by **${sender}** ${ts} (timezone of server). `;
 
     this.Compose(body, title ? `Fw: ${title}` : "");
+  }
+
+  private assignDispatchers() {
+    GlobalDispatch.subscribe("message-flush", () => this.Update());
+
+    this.process.handler.dispatch.subscribe<string>(this.pid, "open-message", async (data) => {
+      await this.openMessage(data);
+
+      await this.openMessagePage();
+    });
   }
 }

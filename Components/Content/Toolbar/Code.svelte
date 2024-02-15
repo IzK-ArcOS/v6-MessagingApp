@@ -3,7 +3,7 @@
 
   export let runtime: Runtime;
 
-  const { ViewingMessageSource, Composing } = runtime;
+  const { ViewingMessageSource, HasOverlay: Composing } = runtime;
 
   function toggle() {
     $ViewingMessageSource = !$ViewingMessageSource;

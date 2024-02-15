@@ -1,0 +1,19 @@
+@import url("./bottom.css");
+@import url("./item.css");
+
+#ThreadView > div.body {
+  padding: 0;
+  background-color: var(--win-bg);
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#ThreadView > div.body div.top {
+  flex-grow: 1;
+  max-height: calc(100% - 50px);
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 15px;
+}

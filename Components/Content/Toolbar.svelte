@@ -9,7 +9,7 @@
 
   export let runtime: Runtime;
 
-  const { Composing } = runtime;
+  const { HasOverlay: Composing } = runtime;
 </script>
 
 <div class="toolbar" class:disabled={$Composing}>

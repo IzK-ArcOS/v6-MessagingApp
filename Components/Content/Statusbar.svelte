@@ -6,7 +6,7 @@
 
   export let runtime: Runtime;
 
-  const { Store, Page, Loading, Message, Composing, ViewingMessageSource } = runtime;
+  const { Store, Page, Loading, Message, HasOverlay: Composing, ViewingMessageSource } = runtime;
 </script>
 
 <div class="statusbar">
