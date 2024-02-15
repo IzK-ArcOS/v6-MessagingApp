@@ -1,13 +1,14 @@
 <script lang="ts">
   import { Runtime } from "$apps/MessagingApp/ts/runtime";
+  import Spinner from "$lib/Components/Spinner.svelte";
+  import { getUsers } from "$ts/server/user/get";
+  import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
   import Message from "./MessageList/Message.svelte";
-  import { AllUsers } from "$types/user";
-  import { getUsers } from "$ts/server/user/get";
 
   export let runtime: Runtime;
 
-  const { Store } = runtime;
+  const { Store, Loading } = runtime;
 
   let users: AllUsers;
 
@@ -21,5 +22,12 @@
     {#each $Store as message}
       <Message {message} {runtime} {users} />
     {/each}
+    {#if !$Store.length}
+      {#if !$Loading}
+        <p class="none">No messages here!</p>
+      {:else}
+        <Spinner height={32} />
+      {/if}
+    {/if}
   </div>
 {/if}

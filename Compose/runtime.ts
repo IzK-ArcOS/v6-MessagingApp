@@ -6,6 +6,7 @@ import { createErrorDialog } from "$ts/process/error";
 import { FileProgress } from "$ts/server/fs/progress";
 import { getMessage } from "$ts/server/messaging/get";
 import { replyToMessage, sendMessage } from "$ts/server/messaging/send";
+import { focusedPid } from "$ts/stores/apps";
 import { Store } from "$ts/writable";
 import { App, AppMutator } from "$types/app";
 
@@ -70,6 +71,7 @@ export class ComposeRuntime extends AppRuntime {
 
     setDone(1);
 
+    focusedPid.set(this.process.parentPid);
     this.closeApp();
   }
 
@@ -89,6 +91,7 @@ export class ComposeRuntime extends AppRuntime {
           {
             caption: "Discard",
             action: () => {
+              focusedPid.set(this.process.parentPid);
               this.closeApp();
             },
             suggested: true,
