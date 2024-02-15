@@ -2,7 +2,7 @@
   import { sleep } from "$ts/util";
   import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
-  import { ComposeRuntime } from "../runtime";
+  import { ComposeRuntime } from "../ts/runtime";
   import Recipient from "./RecipientsField/Recipient.svelte";
   import { getUsers } from "$ts/server/user/get";
 

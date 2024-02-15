@@ -1,6 +1,6 @@
 <script lang="ts">
   import MarkdownRenderer from "$lib/Components/MarkdownRenderer.svelte";
-  import { ComposeRuntime } from "../runtime";
+  import { ComposeRuntime } from "../ts/runtime";
 
   export let runtime: ComposeRuntime;
 

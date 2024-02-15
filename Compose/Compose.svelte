@@ -3,7 +3,7 @@
   import RecipientsField from "./Components/RecipientsField.svelte";
   import TitleField from "./Components/TitleField.svelte";
   import Toolbar from "./Components/Toolbar.svelte";
-  import { ComposeRuntime } from "./runtime";
+  import { ComposeRuntime } from "./ts/runtime";
 
   import "./css/main.css";
 

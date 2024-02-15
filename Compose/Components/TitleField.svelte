@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ComposeRuntime } from "../runtime";
+  import { ComposeRuntime } from "../ts/runtime";
 
   export let runtime: ComposeRuntime;
 

@@ -20,7 +20,7 @@ import type { App, AppMutator } from "$types/app";
 import { Message, PartialMessage } from "$types/messaging";
 import dayjs from "dayjs";
 import Fuse from "fuse.js";
-import { ComposeApp } from "../Compose/app";
+import { ComposeApp } from "../Compose/ts/app";
 import { MessagingPages } from "./store";
 
 export class Runtime extends AppRuntime {

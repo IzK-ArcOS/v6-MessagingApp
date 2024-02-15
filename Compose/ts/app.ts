@@ -1,6 +1,6 @@
 import { MessagingIcon } from "$ts/images/apps";
 import { App } from "$types/app";
-import ComposeSvelte from "./Compose.svelte";
+import ComposeSvelte from "../Compose.svelte";
 import { ComposeRuntime } from "./runtime";
 
 export const ComposeApp: App = {

@@ -62,6 +62,9 @@
 #MessagingApp > div.body div.message-list button div.context span.partial {
   font-size: 11px;
   opacity: 0.5;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #MessagingApp > div.body div.message-list > img.spinner-svg {
