@@ -45,7 +45,7 @@ export class Runtime extends AppRuntime {
     this.assignDispatchers();
   }
 
-  async Update(reset = true) {
+  async Update(reset = true, flush = true) {
     const page = MessagingPages[this.Page.get()];
 
     if (this.LockRefresh.get() || !page) return;
@@ -64,13 +64,14 @@ export class Runtime extends AppRuntime {
 
     this.Store.set(supplier);
 
-    if (currentMessage) await this.openMessage(currentMessage.id, true);
-    else if (supplier[0]) await this.openMessage(supplier[0].id);
+    if (flush)
+      if (currentMessage) await this.openMessage(currentMessage.id, true);
+      else if (supplier[0]) await this.openMessage(supplier[0].id);
 
     this.Loading.set(false);
   }
 
-  public async navigate(id: string, reset = true) {
+  public async navigate(id: string, reset = true, flush = true) {
     if (this.Loading.get()) return false;
 
     const current = this.Page.get();
@@ -80,7 +81,7 @@ export class Runtime extends AppRuntime {
 
     this.Page.set(id);
 
-    await this.Update(reset);
+    await this.Update(reset, flush);
 
     return true;
   }
@@ -99,14 +100,15 @@ export class Runtime extends AppRuntime {
     this.Message.set(message);
   }
 
-  public openMessagePage() {
+  public openMessagePage(flush = true) {
     const message = this.Message.get();
     const username = UserName.get();
 
     if (!message) return;
 
-    if (message.receiver == username) this.navigate(message.read ? "inbox" : "unread");
-    else if (message.sender == username) this.navigate("sent");
+    if (message.receiver == username)
+      this.navigate(message.read ? "inbox" : "unread", false, flush);
+    else if (message.sender == username) this.navigate("sent", false, flush);
   }
 
   public Search(query: string) {
@@ -332,7 +334,7 @@ export class Runtime extends AppRuntime {
     this.process.handler.dispatch.subscribe<string>(this.pid, "open-message", async (data) => {
       await this.openMessage(data);
 
-      this.openMessagePage();
+      this.openMessagePage(false);
     });
 
     this.process.handler.dispatch.subscribe(this.pid, "open-latest-sent", async () => {

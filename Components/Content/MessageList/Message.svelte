@@ -18,8 +18,10 @@
   let isUnread = false;
 
   onMount(async () => {
-    username = message.receiver == $UserName ? message.sender : message.receiver;
-    isUnread = message.receiver == $UserName && !message.read;
+    const isReceived = message.receiver == $UserName;
+
+    username = isReceived ? message.sender : message.receiver;
+    isUnread = isReceived && !message.read;
 
     pfp = await getUserPfp(username, "", users);
   });
@@ -36,6 +38,7 @@
     class:selected={$Message && $Message.id == message.id}
     class:unread={isUnread}
     class:reply={!!message.replyingTo}
+    class:sent={message.sender == $UserName}
   >
     <img src={pfp} alt="" />
     <div class="context">
