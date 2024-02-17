@@ -6,7 +6,7 @@ import { createErrorDialog } from "$ts/process/error";
 import { FileProgress } from "$ts/server/fs/progress";
 import { getMessage } from "$ts/server/messaging/get";
 import { replyToMessage, sendMessage } from "$ts/server/messaging/send";
-import { focusedPid } from "$ts/stores/apps";
+import { focusedPid } from "$ts/stores/apps/focus";
 import { ProcessStack } from "$ts/stores/process";
 import { Store } from "$ts/writable";
 import { App, AppMutator } from "$types/app";
