@@ -9,6 +9,21 @@
   padding: 0 10px;
   height: 25px;
   line-height: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#MessagingApp > div.body div.statusbar div.segment span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#MessagingApp > div.body div.statusbar div.segment.people {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 #MessagingApp > div.body div.statusbar div.segment + div.segment {
@@ -21,6 +36,7 @@
 #MessagingApp > div.body div.statusbar span.material-icons-round {
   font-size: 16px;
   line-height: 25px;
+  min-width: 16px;
 }
 
 #MessagingApp > div.body div.statusbar span.material-icons-round + span.material-icons-round {
@@ -32,5 +48,5 @@
 }
 
 #MessagingApp > div.body div.statusbar span.material-icons-round.disabled {
-  opacity: 0.5;
+  opacity: 0.2;
 }

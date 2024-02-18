@@ -24,6 +24,7 @@
 #MessagingApp > div.body div.titlebar div.title {
   flex-grow: 1;
   max-width: unset;
+  gap: 0 !important;
 }
 
 #MessagingApp > div.body div.titlebar div.toolbar {

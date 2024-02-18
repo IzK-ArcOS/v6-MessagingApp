@@ -22,8 +22,9 @@
     {/if}
   </div>
   {#if $Message}
-    <div class="segment">
-      From: {$Message.sender}
+    <div class="segment people">
+      <span>From: {$Message.sender} - To: {$Message.receiver}</span>
+      <span class="material-icons-round" class:disabled={!$Message.read}>done_all</span>
     </div>
   {/if}
   <div class="segment right">
