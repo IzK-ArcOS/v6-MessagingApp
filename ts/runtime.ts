@@ -41,8 +41,19 @@ export class Runtime extends AppRuntime {
   constructor(app: App, mutator: AppMutator, process: Process) {
     super(app, mutator, process);
 
+    this._init();
+  }
+
+  private async _init() {
     this.Update();
     this.assignDispatchers();
+
+    const args = this.process.args;
+
+    if (args[0] && typeof args[0] === "string") {
+      this.openMessage(args[0]);
+      this.openMessagePage();
+    }
   }
 
   async Update(reset = true, flush = true) {
