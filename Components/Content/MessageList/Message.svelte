@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Runtime } from "$apps/MessagingApp/ts/runtime";
+  import ProfilePicture from "$lib/Components/ProfilePicture.svelte";
   import { filterPartialMessageBody } from "$ts/server/messaging/utils";
   import { getUserPfp } from "$ts/server/user/pfp";
   import { UserName } from "$ts/stores/user";
@@ -40,7 +41,7 @@
     class:reply={!!message.replyingTo}
     class:sent={message.sender == $UserName}
   >
-    <img src={pfp} alt="" />
+    <ProfilePicture height={32} src={pfp} />
     <div class="context">
       <span class="receiver">
         <span>{username}</span>
@@ -50,9 +51,3 @@
     </div>
   </button>
 {/if}
-
-<style scoped>
-  img {
-    height: 32px;
-  }
-</style>
