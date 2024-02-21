@@ -1,11 +1,11 @@
 <script lang="ts">
+  import Spinner from "$lib/Components/Spinner.svelte";
+  import { getUsers } from "$ts/server/user/get";
   import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
   import Item from "./Components/Item.svelte";
-  import { ThreadViewRuntime } from "./ts/runtime";
-  import { getUsers } from "$ts/server/user/get";
-  import Spinner from "$lib/Components/Spinner.svelte";
   import "./css/main.css";
+  import { ThreadViewRuntime } from "./ts/runtime";
 
   export let runtime: ThreadViewRuntime;
 

@@ -1,5 +1,4 @@
 import { AppRuntime } from "$ts/apps";
-import { DefaultIcon } from "$ts/images/apps";
 import { WarningIcon } from "$ts/images/dialog";
 import { Process } from "$ts/process";
 import { createErrorDialog } from "$ts/process/error";

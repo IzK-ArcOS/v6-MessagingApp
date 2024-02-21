@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { getUsers } from "$ts/server/user/get";
   import { Plural, sleep } from "$ts/util";
   import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
   import { ComposeRuntime } from "../ts/runtime";
   import Recipient from "./RecipientsField/Recipient.svelte";
-  import { getUsers } from "$ts/server/user/get";
 
   export let runtime: ComposeRuntime;
 

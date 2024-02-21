@@ -1,12 +1,12 @@
 <script lang="ts">
   import ProfilePicture from "$lib/Components/ProfilePicture.svelte";
   import { filterPartialMessageBody } from "$ts/server/messaging/utils";
+  import { getUserPfp } from "$ts/server/user/pfp";
   import { PartiallyExtendedMessage } from "$types/messaging";
   import { AllUsers } from "$types/user";
   import { onMount } from "svelte";
-  import Branch from "./Branch.svelte";
-  import { getUserPfp } from "$ts/server/user/pfp";
   import { ThreadViewRuntime } from "../ts/runtime";
+  import Branch from "./Branch.svelte";
 
   export let item: PartiallyExtendedMessage;
   export let users: AllUsers;

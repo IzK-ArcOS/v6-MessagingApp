@@ -1,7 +1,7 @@
-import { DefaultIcon, MessagingIcon } from "$ts/images/apps";
-import { Runtime } from "./runtime";
-import AppSvelte from "../App.svelte";
+import { MessagingIcon } from "$ts/images/apps";
 import { App } from "$types/app";
+import AppSvelte from "../App.svelte";
+import { Runtime } from "./runtime";
 
 export const MessagingApp: App = {
   metadata: {

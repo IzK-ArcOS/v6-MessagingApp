@@ -12,19 +12,19 @@ import { pathToFriendlyName, pathToFriendlyPath } from "$ts/server/fs/util";
 import { archiveMessage, isArchived, unarchiveMessage } from "$ts/server/messaging/archive";
 import { deleteMessage } from "$ts/server/messaging/delete";
 import { getMessage, getSentMessages } from "$ts/server/messaging/get";
+import { parseTitle } from "$ts/server/messaging/utils";
 import { GetSaveFilePath } from "$ts/stores/apps/file";
 import { ProcessStack } from "$ts/stores/process";
 import { UserName } from "$ts/stores/user";
+import { sleep } from "$ts/util";
 import { Store } from "$ts/writable";
 import type { App, AppMutator } from "$types/app";
 import { Message, PartialMessage } from "$types/messaging";
 import dayjs from "dayjs";
 import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
-import { MessagingPages } from "./store";
-import { parseTitle } from "$ts/server/messaging/utils";
 import { ThreadViewApp } from "../ThreadView/ts/app";
-import { sleep } from "$ts/util";
+import { MessagingPages } from "./store";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
