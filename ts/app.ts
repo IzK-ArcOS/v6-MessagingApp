@@ -1,3 +1,4 @@
+import { SafeMode } from "$state/Desktop/ts/store";
 import { MessagingIcon } from "$ts/images/apps";
 import { App } from "$types/app";
 import AppSvelte from "../App.svelte";
@@ -33,4 +34,5 @@ export const MessagingApp: App = {
   },
   glass: true,
   singleInstance: true,
+  loadCondition: () => !SafeMode.get(),
 };
