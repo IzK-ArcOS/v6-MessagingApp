@@ -1,5 +1,7 @@
+import { createTrayIcon, disposeTrayIcon } from "$apps/Shell/ts/tray";
 import { spawnOverlay } from "$ts/apps";
 import { AppRuntime } from "$ts/apps/runtime";
+import { MessagingIcon } from "$ts/images/apps";
 import { ErrorIcon } from "$ts/images/dialog";
 import { SaveIcon, TrashIcon } from "$ts/images/general";
 import { Process } from "$ts/process";
@@ -25,10 +27,7 @@ import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { ThreadViewApp } from "../ThreadView/ts/app";
 import { MessagingPages } from "./store";
-import { createTrayIcon, disposeTrayIcon } from "$apps/Shell/ts/tray";
 import { focusedPid } from "$ts/stores/apps/focus";
-import { MessagingIcon } from "$ts/images/apps";
-import TrayPopup from "../Components/TrayPopup.svelte";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -367,10 +366,8 @@ export class Runtime extends AppRuntime {
       identifier: id,
       title: "Messages",
       image: MessagingIcon,
-      popup: {
-        width: 150,
-        height: 200,
-        component: TrayPopup,
+      onOpen: () => {
+        focusedPid.set(this.pid);
       },
     });
 
