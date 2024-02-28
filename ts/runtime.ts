@@ -25,6 +25,10 @@ import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { ThreadViewApp } from "../ThreadView/ts/app";
 import { MessagingPages } from "./store";
+import { createTrayIcon, disposeTrayIcon } from "$apps/Shell/ts/tray";
+import { focusedPid } from "$ts/stores/apps/focus";
+import { MessagingIcon } from "$ts/images/apps";
+import TrayPopup from "../Components/TrayPopup.svelte";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -54,6 +58,8 @@ export class Runtime extends AppRuntime {
       this.openMessage(args[0]);
       this.openMessagePage();
     }
+
+    this._trayIcon();
   }
 
   async Update(reset = true, flush = true) {
@@ -351,6 +357,25 @@ export class Runtime extends AppRuntime {
     this.process.handler.dispatch.subscribe(this.pid, "open-latest-sent", async () => {
       await sleep(100);
       this.openLatestSent();
+    });
+  }
+
+  private _trayIcon() {
+    const id = `MessagingApp#${this.pid}`;
+
+    createTrayIcon({
+      identifier: id,
+      title: "Messages",
+      image: MessagingIcon,
+      popup: {
+        width: 150,
+        height: 200,
+        component: TrayPopup,
+      },
+    });
+
+    ProcessStack.processes.subscribe(() => {
+      if (!ProcessStack.isPid(this.pid, true)) disposeTrayIcon(id);
     });
   }
 }
