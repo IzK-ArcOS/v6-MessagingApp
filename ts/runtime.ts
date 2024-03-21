@@ -16,6 +16,7 @@ import { deleteMessage } from "$ts/server/messaging/delete";
 import { getMessage, getSentMessages } from "$ts/server/messaging/get";
 import { parseTitle } from "$ts/server/messaging/utils";
 import { GetSaveFilePath } from "$ts/stores/apps/file";
+import { focusedPid } from "$ts/stores/apps/focus";
 import { ProcessStack } from "$ts/stores/process";
 import { UserName } from "$ts/stores/user";
 import { sleep } from "$ts/util";
@@ -27,7 +28,6 @@ import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { ThreadViewApp } from "../ThreadView/ts/app";
 import { MessagingPages } from "./store";
-import { focusedPid } from "$ts/stores/apps/focus";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
