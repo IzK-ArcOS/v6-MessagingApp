@@ -1,7 +1,9 @@
 <script lang="ts">
   import { Runtime } from "$apps/MessagingApp/ts/runtime";
   import MarkdownRenderer from "$lib/Components/MarkdownRenderer.svelte";
+  import { formatBytes } from "$ts/bytes";
   import { sleep } from "$ts/util";
+  import dayjs from "dayjs";
 
   export let runtime: Runtime;
 
@@ -9,6 +11,7 @@
 
   let isThread = false;
   let body = "";
+  let sent = "on 1 January 1970 at 12:00";
 
   Message.subscribe(async (v) => {
     if (!v) return (isThread = false);
@@ -18,6 +21,7 @@
     body = "";
     await sleep(5);
     body = v.body;
+    sent = dayjs(v.timestamp).format("[on] D MMMM YYYY [at] H:mm");
   });
 
   function thread() {
@@ -29,6 +33,12 @@
   <div class="message-content">
     {#if !$ViewingMessageSource}
       <MarkdownRenderer content={body} />
+      {#if $Message && body}
+        <div class="timestamp">
+          Sent by {$Message.sender}
+          {sent} ({formatBytes(body.length)})
+        </div>
+      {/if}
     {:else}
       <textarea readonly value={body} class="source" />
     {/if}
