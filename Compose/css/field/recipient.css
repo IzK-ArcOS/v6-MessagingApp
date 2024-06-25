@@ -72,4 +72,5 @@
   border: none;
   min-width: 120px;
   height: 30px;
+  background-color: var(--win-bg);
 }
