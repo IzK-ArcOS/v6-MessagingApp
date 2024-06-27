@@ -28,6 +28,7 @@ import Fuse from "fuse.js";
 import { ComposeApp } from "../Compose/ts/app";
 import { ThreadViewApp } from "../ThreadView/ts/app";
 import { MessagingPages } from "./store";
+import { WriteFileReturnCaptions } from "$ts/stores/filesystem/captions";
 
 export class Runtime extends AppRuntime {
   public Store = Store<PartialMessage[]>([]);
@@ -205,8 +206,19 @@ export class Runtime extends AppRuntime {
 
     const written = await writeFile(path, textToBlob(message.body), true);
 
-    if (!written) mutErr(+1);
-    else setDone(1);
+    if (written.startsWith("err_")) {
+      createErrorDialog(
+        {
+          title: "Failed to save your message",
+          message: WriteFileReturnCaptions[written],
+          buttons: [{ caption: "Okay", action() {}, suggested: true }],
+          image: ErrorIcon,
+          sound: "arcos.dialog.error",
+        },
+        this.pid,
+        true
+      );
+    } else setDone(1);
   }
 
   public async DeleteMessage() {
